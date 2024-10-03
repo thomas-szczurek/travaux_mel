@@ -203,6 +203,31 @@ ECHO couche zone_de_vegetation
 ECHO couche equipement_de_transport
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt MULTIPOLYGON %WORK_PLACE%/temp/bd_topo.gpkg -nln equipement_de_transport WFS:%URL_GEOP%BDTOPO_V3:equipement_de_transport"
 
+REM Enregistrer l'heure de fin
+set ENDTIME=%TIME%
+
+REM Convertir STARTTIME et ENDTIME en secondes
+for /f "tokens=1-3 delims=:" %%a in ("%STARTTIME%") do (
+    set /a STARTSEC=3600*1%%a+60*1%%b+1%%c
+)
+for /f "tokens=1-3 delims=:" %%a in ("%ENDTIME%") do (
+    set /a ENDSEC=3600*1%%a+60*1%%b+1%%c
+)
+
+REM Calculer la différence en secondes
+SET /a DELTA=%ENDSEC%-%STARTSEC%
+
+REM Convertir DELTA en heures, minutes et secondes
+SET /a HOURS=%DELTA% / 3600
+SET /a DELTA=%DELTA% %% 3600
+SET /a MINUTES=%DELTA% / 60
+SET /a SECONDS=%DELTA% %% 60
+
+REM Afficher le temps d'exécution total
+ECHO Temps d'execution total : %HOURS%h. %MINUTES%min. %SECONDS%sec.
+
+ECHO Etape 3 - creation informations.txt
+
 (
 ECHO QUOI : Bd Topo IGN
 ECHO PROVENANCE / URL DE TELECHARGEMENT : service OGI API de la géopolateforme IGN %URL_INFO%
