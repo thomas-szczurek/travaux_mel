@@ -17,7 +17,7 @@ REM il faut aussi configurer GDAL_DATA car on utilise gdal/ogr en dehors du shel
 SET GDAL_DATA=%QGIS%\apps\gdal\share\gdal"
 REM le proxy de la mel étant tellement bien configuré que curl n'arrive pas à certifier les certifs ssl (y comprit ceux des serveurs de la mel lol) à travers lui alors on désactive la verif ssl pour les wfs
 SET GDAL_HTTP_UNSAFESSL=YES
-REM options de créations
+REM options de créations étape 2
 SET OPTIONS_CREA_ETAPE2=-append -spat_srs EPSG:2154 -spat %BBOX% -t_srs EPSG:2154 -clipdst %WORK_PLACE%\mel.fgb --config OGR_WFS_PAGE_SIZE=100000 -gt 65536 -makevalid -lco FID=OBJECTID
 REM enregistrement de l'horaire de lancement du script
 SET STARTTIME=%TIME%
@@ -43,6 +43,10 @@ ECHO couche bassins_versants_topologiques
 
 REM ECHO couche batiments
 REM %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt MULTISURFACE %WORK_PLACE%/temp/bd_topo.gpkg -nln batiment WFS:%URL_GEOP%BDTOPO_V3:batiment"
+SET BBOX_1=
+SET BBOX_2=
+SET BBOX_3=
+SET BBOX_4=
 
 ECHO couche canalisations
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt LINESTRING %WORK_PLACE%/temp/bd_topo.gpkg -nln canalisation WFS:%URL_GEOP%BDTOPO_V3:canalisation"
