@@ -12,7 +12,7 @@ SET URL_GEOR="https://georisques.gouv.fr
 SET BBOX=685041 7044713 719322 7077570
 REM il faut aussi configurer GDAL_DATA car on utilise gdal/ogr en dehors du shell osgeo4w
 SET GDAL_DATA=%QGIS%\apps\gdal\share\gdal"
-REM le proxy de la mel étant tellement bien configuré que curl n'arrive pas à certifier les certifs ssl (y comprit ceux des serveurs de la mel lol) à travers lui alors on désactive la verif ssl pour les wfs
+REM curl n'arrive pas à certifier les certifs ssl (y comprit ceux des serveurs de la mel) à travers le proxy de la mel donc on désactive la verif ssl pour les wfs
 SET GDAL_HTTP_UNSAFESSL=YES
 
 ECHO Etape 2 - conversion en geopackage et extraction zonage mel
