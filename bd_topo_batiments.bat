@@ -13,7 +13,7 @@ SET URL_GEOP="%URL_INFO%/wfs/ows?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TY
 
 REM il faut aussi configurer GDAL_DATA car on utilise gdal/ogr en dehors du shell osgeo4w
 SET GDAL_DATA=%QGIS%\apps\gdal\share\gdal"
-REM le proxy de la mel étant tellement bien configuré que curl n'arrive pas à certifier les certifs ssl (y comprit ceux des serveurs de la mel lol) à travers lui alors on désactive la verif ssl pour les wfs
+REM curl n'arrive pas à certifier les certifs ssl (y comprit ceux des serveurs de la mel) à travers le proxy de la mel donc on désactive la verif ssl pour les wfs
 SET GDAL_HTTP_UNSAFESSL=YES
 REM options de créations
 SET OPTIONS_CREA_ETAPE2=-append -t_srs EPSG:2154 -clipdst %WORK_PLACE%\com\com_mel.gpkg --config OGR_WFS_PAGE_SIZE=100000 -gt 65536 -makevalid
