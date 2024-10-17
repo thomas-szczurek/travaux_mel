@@ -41,13 +41,6 @@ ECHO couche aerodromes
 ECHO couche bassins_versants_topologiques
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt MULTISURFACE %WORK_PLACE%/temp/bd_topo.gpkg -nln bassin_versant_topographique WFS:%URL_GEOP%BDTOPO_V3:bassin_versant_topographique"
 
-REM ECHO couche batiments
-REM %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt MULTISURFACE %WORK_PLACE%/temp/bd_topo.gpkg -nln batiment WFS:%URL_GEOP%BDTOPO_V3:batiment"
-SET BBOX_1=
-SET BBOX_2=
-SET BBOX_3=
-SET BBOX_4=
-
 ECHO couche canalisations
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt LINESTRING %WORK_PLACE%/temp/bd_topo.gpkg -nln canalisation WFS:%URL_GEOP%BDTOPO_V3:canalisation"
 
