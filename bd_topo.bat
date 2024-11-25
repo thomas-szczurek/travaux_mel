@@ -22,11 +22,12 @@ SET GDAL_DATA=%QGIS%\apps\gdal\share\gdal"
 REM curl n'arrive pas a certifier les certifs ssl auto renouvelés à travers le proxy de la mel (y comprit ceux des serveurs de la mel) à travers lui alors on désactive la verif ssl pour les wfs
 SET GDAL_HTTP_UNSAFESSL=YES
 REM options de créations
-SET OPTIONS_CREA_ETAPE2=-append -spat_srs EPSG:2154 -spat %BBOX% -t_srs EPSG:2154 -clipdst %WORK_PLACE%\mel.fgb --config OGR_WFS_PAGE_SIZE=100000 -gt 65536 -makevalid -lco FID=OBJECTID
+SET OPTIONS_CREA_ETAPE2=-append -spat_srs EPSG:2154 -spat %BBOX% -t_srs EPSG:2154 -clipdst %LAYER_PLACE%\mel.fgb --config OGR_WFS_PAGE_SIZE=100000 -gt 65536 -makevalid -lco FID=OBJECTID
 REM enregistrement de l'horaire de lancement du script
 SET STARTTIME=%TIME%
 
 REM /////////////// Début étape 2 ///////////////
+
 (
 ECHO
 ECHO Etape 2 - conversion en geopackage et extraction zonage mel
@@ -210,7 +211,16 @@ ECHO couche Équipements de transport
 REM /////////////// Début étape 3 ///////////////
 (
 ECHO
-ECHO Etape 3 - Calcul durée d'exécution et création d'informations.txt
+ECHO Etape 5 - Copie des fichiers
+ECHO
+)
+
+copy /b /v /y %WORK_PLACE%/bd_topo.gpkg \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO\bd_topo.gpkg
+
+REM /////////////// Début étape 4 ///////////////
+(
+ECHO
+ECHO Etape 4 - Creation d'informations.txt, calcul duree d'execution et nettoyage
 ECHO
 )
 
@@ -246,15 +256,8 @@ ECHO Téléchargement le : %TIME%
 ECHO Durée de téléchargement : %HOURS%h. %MINUTES%min. %SECONDS%sec
 ) > %WORK_PLACE%/informations.txt
 
-REM /////////////// Début étape 4 ///////////////
-(
-ECHO
-ECHO Etape 4 - Copie des fichiers et nettoyage
-ECHO
-)
+copy /b /v /y %WORK_PLACE%/informations.txt \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO\informations.txt
 
-copy /b /v /y %WORK_PLACE%/bd_topo.gpkg \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO`\bd_topo.gpkg
-copy /b /v /y %WORK_PLACE%/informations.txt \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO`\informations.txt
 del /s /q %WORK_PLACE%
 
 
