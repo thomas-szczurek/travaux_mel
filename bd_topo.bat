@@ -1,5 +1,5 @@
 @ECHO OFF
-
+REM /////////////// Début étape 1 ///////////////
 ECHO Etape 1 - assignation des variables et creation du dossier de traitement temporaire
 
 REM variables potentiellement modifiables
@@ -26,7 +26,12 @@ SET OPTIONS_CREA_ETAPE2=-append -spat_srs EPSG:2154 -spat %BBOX% -t_srs EPSG:215
 REM enregistrement de l'horaire de lancement du script
 SET STARTTIME=%TIME%
 
+REM /////////////// Début étape 2 ///////////////
+(
+ECHO
 ECHO Etape 2 - conversion en geopackage et extraction zonage mel
+ECHO
+)
 
 ECHO couche Arrondissements
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt POLYGON %WORK_PLACE%/bd_topo.gpkg -nln arrondissements WFS:%URL_GEOP%BDTOPO_V3:arrondissement"
@@ -202,7 +207,12 @@ ECHO couche Zones de végétation
 ECHO couche Équipements de transport
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt POLYGON %WORK_PLACE%/bd_topo.gpkg -nln equipement_de_transport WFS:%URL_GEOP%BDTOPO_V3:equipement_de_transport"
 
-ECHO Etape 3 - Calcul durée d'exécution et création d'inforamtions.txt
+REM /////////////// Début étape 3 ///////////////
+(
+ECHO
+ECHO Etape 3 - Calcul durée d'exécution et création d'informations.txt
+ECHO
+)
 
 REM Enregistrer l'heure de fin
 SET ENDTIME=%TIME%
@@ -234,6 +244,18 @@ ECHO Source : IGN
 ECHO Source : %URL_INFO%
 ECHO Téléchargement le : %TIME%
 ECHO Durée de téléchargement : %HOURS%h. %MINUTES%min. %SECONDS%sec
-) > inforamtions.txt
+) > %WORK_PLACE%/informations.txt
+
+REM /////////////// Début étape 4 ///////////////
+(
+ECHO
+ECHO Etape 4 - Copie des fichiers et nettoyage
+ECHO
+)
+
+copy /b /v /y %WORK_PLACE%/bd_topo.gpkg \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO`\bd_topo.gpkg
+copy /b /v /y %WORK_PLACE%/informations.txt \\volt\infogeo\Donnees\Externe\IGN\BD_TOPO`\informations.txt
+del /s /q %WORK_PLACE%
+
 
 ECHO Fin !
