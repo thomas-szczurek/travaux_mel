@@ -211,7 +211,7 @@ ECHO couche Équipements de transport
 REM /////////////// Début étape 3 ///////////////
 (
 ECHO
-ECHO Etape 5 - Copie des fichiers
+ECHO Etape 3 - Copie des fichiers
 ECHO
 )
 

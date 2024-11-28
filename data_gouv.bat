@@ -37,6 +37,7 @@ ECHO
 REM enregistrement de l'horaire de lancement du téléchargement
 SET STARTTIME=%TIME%
 SET URL_DWL=%URL_INFO%/fr/datasets/r/9eb02ac9-4bce-4fa8-a6f7-451c5b366f66
+
 curl %URL_DWL% %WORK_PLACE%/annuaire_education.geojson --ssl-no-revoke -L
 %QGIS%/bin/ogr2ogr.exe" -f GPKG %OPTIONS_CREA_ETAPE2% -nlt POLYGON -nln annuaire_education -lco FID=OBJECTID %WORK_PLACE%/annuaire_education.gpkg %WORK_PLACE%/annuaire_education.geojson
 
@@ -72,7 +73,7 @@ ECHO Durée de téléchargement : %HOURS%h. %MINUTES%min. %SECONDS%sec
 REM /////////////// Début étape 4 ///////////////
 (
 ECHO
-ECHO Etape 4 - Copie des fichiers et nettoyage
+ECHO Etape 3 - Copie des fichiers et nettoyage
 ECHO
 )
 
@@ -83,7 +84,7 @@ del /s /q %WORK_PLACE%
 REM /////////////// Début étape finale ///////////////
 (
 ECHO
-ECHO Etape Finale - Calcul durée d'exécution du script
+ECHO Etape 5 - Calcul durée d'exécution du script
 ECHO
 )
 
